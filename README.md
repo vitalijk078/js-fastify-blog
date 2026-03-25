@@ -134,11 +134,3 @@ test: {
 This repository is created and maintained by the team and the community of Hexlet, an educational project.
 
 ````
-
-После этого просто сохрани файл и запушь:
-
-```cmd
-git add README.md
-git commit -m "Update README"
-git push
-````
