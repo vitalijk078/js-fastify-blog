@@ -1,69 +1,145 @@
+````md
 # JS Fastify Blog
 
-[![Main](https://github.com/hexlet-components/js-fastify-blog/actions/workflows/main.yml/badge.svg)](https://github.com/hexlet-components/js-fastify-blog/actions/workflows/main.yml)
+## Requirements
 
-## Requirement
+- Node.js v20.6.1
+- Docker
+- Docker Compose
 
-* NodeJS v20.6.1
-* Sqlite или PostgreSQL
+## Local development without Docker
 
-## Commands
+### Install dependencies
 
 ```bash
 make install
+````
+
+### Run in development mode
+
+```bash
 make dev
 ```
 
-## Run tests with Postgres
+## Environment variables
 
-To run tests with Postgres, you need to edit *config/config.cjs* and under the `test` key comment out the use of SQLite and uncomment the environment variables
+For working with PostgreSQL, create a `.env` file or specify environment variables manually.
 
-```js
-  // test: {
-  //   dialect: 'sqlite',
-  //   storage: './database.test.sqlite',
-  // },
-  test: {
-    dialect: 'postgres',
-    database: process.env.DATABASE_NAME,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    port: process.env.DATABASE_PORT,
-    host: process.env.DATABASE_HOST,
-  },
-```
-
-Specify environment variables manually or prepare a *.env* file with the command
+You can prepare the file with:
 
 ```bash
 make prepare-env
 ```
 
-In it specify the data to connect to the database
+Then fill in the database connection settings:
 
-```dotenv
-DATABASE_NAME=postgres
+```env
+DATABASE_NAME=blog
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=postgres
 DATABASE_PORT=5432
 DATABASE_HOST=localhost
 ```
 
-## Running an application with Postgres (production)
+## Running with PostgreSQL without Docker
 
-Export environment variables to work with the database or prepare a *.env* file with variables
-
-Run
+### Build assets
 
 ```bash
-make build # build assets
-make start # Open in browser: http://localhost:8080
+make build
 ```
 
----
+### Start application
 
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/assets/master/images/hexlet_logo128.png)](https://hexlet.io?utm_source=github&utm_medium=link&utm_campaign=js-fastify-blog)
+```bash
+make start
+```
 
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet](https://hexlet.io?utm_source=github&utm_medium=link&utm_campaign=js-fastify-blog).
+Open in browser:
 
-See most active contributors on [hexlet-friends](https://friends.hexlet.io/).
+```text
+http://localhost:8080
+```
+
+## Running with Docker Compose
+
+The project is containerized with Docker. Docker Compose is used to run the application together with PostgreSQL.
+
+### Start application
+
+```bash
+docker compose up --build app
+```
+
+Open in browser:
+
+```text
+http://localhost:8080
+```
+
+### Run tests
+
+```bash
+docker compose run --rm test
+```
+
+### Stop containers
+
+```bash
+docker compose down -v
+```
+
+## Docker image
+
+Docker Hub repository: [https://hub.docker.com/repository/docker/paralyssiss/js-fastify-blog/general](https://hub.docker.com/repository/docker/paralyssiss/js-fastify-blog/general)
+
+Image name:
+
+```text
+paralyssiss/js-fastify-blog:latest
+```
+
+Pull image:
+
+```bash
+docker pull paralyssiss/js-fastify-blog:latest
+```
+
+## Notes about tests with PostgreSQL
+
+By default, the test environment uses SQLite.
+
+If you need to run tests with PostgreSQL, edit `config/config.cjs` and under the `test` key comment out SQLite and uncomment PostgreSQL configuration:
+
+```js
+// test: {
+//   dialect: 'sqlite',
+//   storage: './database.test.sqlite',
+// },
+test: {
+  dialect: 'postgres',
+  database: process.env.DATABASE_NAME,
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  port: process.env.DATABASE_PORT,
+  host: process.env.DATABASE_HOST,
+},
+```
+
+## Project summary
+
+`js-fastify-blog` is a Fastify-based blog application prepared for local development and containerized deployment. The project can be launched with Docker Compose, where the application and PostgreSQL run as separate services. On startup, the application performs database migrations automatically.
+
+## About
+
+This repository is created and maintained by the team and the community of Hexlet, an educational project.
+
+````
+
+После этого просто сохрани файл и запушь:
+
+```cmd
+git add README.md
+git commit -m "Update README"
+git push
+````
